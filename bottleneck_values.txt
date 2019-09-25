@@ -1,0 +1,165 @@
+Metric compared to k = 1
+1.22573685646057
+
+Metric compared to k = 2
+2.65332841873169
+
+Metric compared to k = 3
+3.22339820861816
+
+Metric compared to k = 4
+3.30664974451065
+
+Metric compared to k = 5
+3.30664974451065
+
+Metric compared to k = 6
+3.30664974451065
+
+Metric compared to k = 7
+3.30664974451065
+
+Metric compared to k = 8
+3.30664974451065
+
+Metric compared to k = 9
+3.30664974451065
+
+Metric compared to k = 10
+3.30664974451065
+
+k = 1 compared to k = 2
+1.94815921783447
+
+k = 1 compared to k = 3
+2.51822900772095
+
+k = 1 compared to k = 4
+2.95431572198868
+
+k = 1 compared to k = 5
+2.95431572198868
+
+k = 1 compared to k = 6
+2.95431572198868
+
+k = 1 compared to k = 7
+2.95431572198868
+
+k = 1 compared to k = 8
+2.95431572198868
+
+k = 1 compared to k = 9
+2.95431572198868
+
+k = 1 compared to k = 10
+2.95431572198868
+
+k = 2 compared to k = 3
+0.619318246841431
+
+k = 2 compared to k = 4
+1.47016096115112
+
+k = 2 compared to k = 5
+1.74332690238953
+
+k = 2 compared to k = 6
+2.17811417579651
+
+k = 2 compared to k = 7
+2.2228935956955
+
+k = 2 compared to k = 8
+2.2228935956955
+
+k = 2 compared to k = 9
+2.2228935956955
+
+k = 2 compared to k = 10
+2.2228935956955
+
+k = 3 compared to k = 4
+0.900091171264648
+
+k = 3 compared to k = 5
+1.17325711250305
+
+k = 3 compared to k = 6
+1.60804438591003
+
+k = 3 compared to k = 7
+1.95218133926392
+
+k = 3 compared to k = 8
+1.95218133926392
+
+k = 3 compared to k = 9
+1.95218133926392
+
+k = 3 compared to k = 10
+1.95218133926392
+
+k = 4 compared to k = 5
+0.273165941238403
+
+k = 4 compared to k = 6
+0.707953214645386
+
+k = 4 compared to k = 7
+1.1290442943573
+
+k = 4 compared to k = 8
+1.44252467155457
+
+k = 4 compared to k = 9
+1.53824853897095
+
+k = 4 compared to k = 10
+1.57069978117943
+
+k = 5 compared to k = 6
+0.434787273406982
+
+k = 5 compared to k = 7
+0.855878353118896
+
+k = 5 compared to k = 8
+1.16935873031616
+
+k = 5 compared to k = 9
+1.26508259773254
+
+k = 5 compared to k = 10
+1.45869344472885
+
+k = 6 compared to k = 7
+0.421091079711914
+
+k = 6 compared to k = 8
+0.73457145690918
+
+k = 6 compared to k = 9
+0.830295324325562
+
+k = 6 compared to k = 10
+1.08345341682434
+
+k = 7 compared to k = 8
+0.313480377197266
+
+k = 7 compared to k = 9
+0.409204244613647
+
+k = 7 compared to k = 10
+0.662362337112427
+
+k = 8 compared to k = 9
+0.193188428878784
+
+k = 8 compared to k = 10
+0.348881959915161
+
+k = 9 compared to k = 10
+0.253158092498779
+
