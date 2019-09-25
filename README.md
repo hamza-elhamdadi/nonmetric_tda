@@ -1,5 +1,5 @@
-#Nonmetric Topological Data Analysis
-##Using Ripser and Hera
+# Nonmetric Topological Data Analysis
+## Using Ripser and Hera
 
 _**How to Use**_
 
