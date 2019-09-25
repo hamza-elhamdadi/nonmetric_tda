@@ -5,7 +5,8 @@ _**How to Use**_
 
 1. Make sure you have Ripser installed and Hera installed as well as built
 
-    To install Ripser, run _pip install ripser_ **Note: This assumes you have python and pip installed**\n
+    To install Ripser, run _pip install ripser_ **Note: This assumes you have python and pip installed**
+    
     For instructions on installing and building Hera, [click here](https://bitbucket.org/grey_narn/hera/src/master/)
 
 2. Run _python bottleneck_tests.py_
