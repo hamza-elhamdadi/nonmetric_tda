@@ -4,6 +4,8 @@ sp.call(['python', 'ripser_3.py'])
 
 sp.call(['touch', 'bottleneck_values.txt'])
 
+sp.call(['rm', './persistence_diagrams/*.txt'])
+
 cmd_3 = 'echo "" >> bottleneck_values.txt'
 
 for i in range(10):
