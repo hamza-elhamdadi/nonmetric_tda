@@ -103,7 +103,7 @@ print("Please enter the range of randomness (smaller than or equal to 5) you wou
 rand_inputs = raw_input()
 rand_range_start = rand_inputs[0]
 rand_range_end = rand_inputs[-1]
-if int(rand_range_start) <= 5 and int(rand_range_end) <= 5 and int(rand_range_start) > 0 and int(rand_range_end) > 0:
+if int(rand_range_start) <= 5 and int(rand_range_end) <= 5 and int(rand_range_start) >= 0 and int(rand_range_end) >= 0:
     rand_range_start = int(rand_range_start)
     rand_range_end = int(rand_range_end)
     if rand_range_start > rand_range_end:
@@ -138,12 +138,18 @@ center = radii[0]
 for i in range(num_circles):
     if i+1 > 0:
         center += radii[i-1]+radii[i]+1
-    data_set.append([(math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]) for x in range(0, num_data_points[i]+1)])
+    data_set.append([[math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]] for x in range(0, num_data_points[i]+1)])
 
 data = list(chain(*data_set))
+
+file = open("dataset.txt", "w+")
+
+for i in data:
+    file.write(str(i[0]) + ' ' + str(i[1]) + '\n')
 
 data_x = map(op.itemgetter(0), data)
 data_y = map(op.itemgetter(1), data)
 
 plt.scatter(data_x,data_y,np.pi*3)
+plt.savefig("og_dataset.png")
 plt.show()
