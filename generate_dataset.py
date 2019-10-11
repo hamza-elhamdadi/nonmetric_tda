@@ -74,6 +74,8 @@ num_data_points = []
 radii = []
 randomness_vals_x = []
 randomness_vals_y = []
+colors = ['#FF00FF','#00FFFF','#00FF00','#0000FF','#FF0000','#800000','#000075','#e6beff','#fabebe','#469990']
+color_sequence = []
 
 
 # Request user input for the number of circles
@@ -93,6 +95,8 @@ for i in range(num_circles):
     str_num_data_points = raw_input()
     if int(str_num_data_points) <= 1000:
         num_data_points.append(int(str_num_data_points))
+        for j in range(int(str_num_data_points)):
+            color_sequence.append(colors[i])
     else:
         print("You entered an invalid number of data points. Aborting program.")
         sys.exit()
@@ -143,6 +147,10 @@ for i in range(num_circles):
 data = list(chain(*data_set))
 
 file = open("dataset.txt", "w+")
+color_file = open("data_colors.txt", 'w+')
+
+for i in range(len(num_data_points)):
+    file.write(colors[i] + ' ' + str(num_data_points[i]) + '\n')
 
 for i in data:
     file.write(str(i[0]) + ' ' + str(i[1]) + '\n')
@@ -150,6 +158,6 @@ for i in data:
 data_x = map(op.itemgetter(0), data)
 data_y = map(op.itemgetter(1), data)
 
-plt.scatter(data_x,data_y,np.pi*3)
+plt.scatter(data_x,data_y,np.pi*3, c = color_sequence, edgecolors = color_sequence)
 plt.savefig("og_dataset.png")
 plt.show()
