@@ -10,7 +10,7 @@ import sys
 
 data = []
 
-file = open('dataset.txt', 'r')
+file = open('data_files/dataset.txt', 'r')
 files = [open('data_files/k0_dissimilarity_matrix.txt', 'w'),
          open('data_files/k1_dissimilarity_matrix.txt', 'w'),
          open('data_files/k2_dissimilarity_matrix.txt', 'w'),
