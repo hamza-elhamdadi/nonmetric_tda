@@ -95,7 +95,7 @@ for i in range(num_circles):
     str_num_data_points = raw_input()
     if int(str_num_data_points) <= 1000:
         num_data_points.append(int(str_num_data_points))
-        for j in range(int(str_num_data_points)):
+        for j in range(int(str_num_data_points)+1):
             color_sequence.append(colors[i])
     else:
         print("You entered an invalid number of data points. Aborting program.")
@@ -150,7 +150,7 @@ file = open("dataset.txt", "w+")
 color_file = open("data_colors.txt", 'w+')
 
 for i in range(len(num_data_points)):
-    file.write(colors[i] + ' ' + str(num_data_points[i]) + '\n')
+     color_file.write(colors[i] + ' ' + str(num_data_points[i]) + '\n')
 
 for i in data:
     file.write(str(i[0]) + ' ' + str(i[1]) + '\n')
