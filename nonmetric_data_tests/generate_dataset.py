@@ -159,5 +159,5 @@ data_x = map(op.itemgetter(0), data)
 data_y = map(op.itemgetter(1), data)
 
 plt.scatter(data_x,data_y,np.pi*3, c = color_sequence, edgecolors = color_sequence)
-plt.savefig("og_dataset.png")
+plt.savefig("pictures/og_dataset.png")
 plt.show()
