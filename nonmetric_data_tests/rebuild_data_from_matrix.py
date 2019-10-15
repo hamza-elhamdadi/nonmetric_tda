@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 mat = []
 color_sequence = []
 
-file = open('dissimilarity_matrix.txt', 'r')
-color_file = open('data_colors.txt', 'r')
+file = open('data_files/dissimilarity_matrix.txt', 'r')
+color_file = open('data_files/data_colors.txt', 'r')
 
 content = file.readlines()
 color_content = color_file.readlines()

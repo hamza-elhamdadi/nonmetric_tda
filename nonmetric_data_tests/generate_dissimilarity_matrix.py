@@ -11,15 +11,15 @@ import sys
 data = []
 
 file = open('dataset.txt', 'r')
-files = [open('data_set/k0_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k1_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k2_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k3_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k4_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k5_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k6_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k7_dissimilarity_matrix.txt', 'w'),
-         open('data_set/k8_dissimilarity_matrix.txt', 'w')]
+files = [open('data_files/k0_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k1_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k2_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k3_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k4_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k5_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k6_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k7_dissimilarity_matrix.txt', 'w'),
+         open('data_files/k8_dissimilarity_matrix.txt', 'w')]
 
 content = file.readlines()
 

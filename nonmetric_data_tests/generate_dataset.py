@@ -146,8 +146,8 @@ for i in range(num_circles):
 
 data = list(chain(*data_set))
 
-file = open("dataset.txt", "w+")
-color_file = open("data_colors.txt", 'w+')
+file = open("data_files/dataset.txt", "w+")
+color_file = open("data_files/data_colors.txt", 'w+')
 
 for i in range(len(num_data_points)):
      color_file.write(colors[i] + ' ' + str(num_data_points[i]) + '\n')
