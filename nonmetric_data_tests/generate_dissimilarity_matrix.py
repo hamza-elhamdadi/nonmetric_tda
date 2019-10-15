@@ -11,7 +11,15 @@ import sys
 data = []
 
 file = open('dataset.txt', 'r')
-file_2 = open('dissimilarity_matrix.txt', 'w')
+files = [open('k0_dissimilarity_matrix.txt', 'w'),
+         open('k1_dissimilarity_matrix.txt', 'w'),
+         open('k2_dissimilarity_matrix.txt', 'w'),
+         open('k3_dissimilarity_matrix.txt', 'w'),
+         open('k4_dissimilarity_matrix.txt', 'w'),
+         open('k5_dissimilarity_matrix.txt', 'w'),
+         open('k6_dissimilarity_matrix.txt', 'w'),
+         open('k7_dissimilarity_matrix.txt', 'w'),
+         open('k8_dissimilarity_matrix.txt', 'w')]
 
 content = file.readlines()
 
@@ -54,15 +62,18 @@ def dissim_matrix(data):
 
     return np.asanyarray(dissimilarities)
 
-# map the metric dissimilarity matrix to a non-metric space
+# sort the rows metric dissimilarity matrix by row
 
-def metric_to_nonmetric(data, mat, k):
-    nonmetric_dissimilarities = []
-    sorted_matrix = []
+def sort_metric(mat, sorted_matrix):
 
     for i in range(0, len(mat[0])):
         sorted_row = np.sort(mat[i])
         sorted_matrix.append(sorted_row)
+
+# map the metric dissimilarity matrix to a non-metric space
+
+def metric_to_nonmetric(data, mat, sorted_matrix, k):
+    nonmetric_dissimilarities = []
     
     for i in range(0, len(mat[0])):
         current_line = []
@@ -78,28 +89,33 @@ def metric_to_nonmetric(data, mat, k):
 #                                                     Data Manipulation                                                       #
 ###############################################################################################################################
 
-#create the dissimilarity matrix for data
+# create the dissimilarity matrix for data
 
 mat = dissim_matrix(data)
 
-# Request the user to enter a k-value for the nonmetric matrix mapping
+# fill out the metric data file
 
-print("Please enter a k-value smaller than 10 to map the data points into a non-metric space (k = 0 will keep the matrix in a metric space)")
-k_string = raw_input()
-if(int(k_string) > 10):
-    print("You entered an invalid k-value. Aborting program.")
-    sys.exit()
-else:
-    k = int(k_string)
+k = 0
 
-if k == 0:
-    non_met_mat = mat
-else:
-    non_met_mat = metric_to_nonmetric(data, mat, k)
+sorted_matrix = []
+sort_metric(mat, sorted_matrix)
 
-for line in non_met_mat:
-    string = ""
-    for i in line:
-        string += str(i) + ' '
-    file_2.write(string)
-    file_2.write('\n')
+for curr_file in files:
+    if k == 0:
+        for line in mat:
+            string = ""
+            for i in line:
+                string += str(i) + ' '
+            curr_file.write(string)
+            curr_file.write('\n')
+        k += 1
+    else:
+        non_met_mat = metric_to_nonmetric(data, mat, sorted_matrix, k)
+        k += 1
+
+        for line in non_met_mat:
+            string = ""
+            for i in line:
+                string += str(i) + ' '
+            curr_file.write(string)
+            curr_file.write('\n')
