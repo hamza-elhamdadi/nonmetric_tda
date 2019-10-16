@@ -1,5 +1,4 @@
 #!/bin/bash
-# eval python generate_dataset.py/
 circ_num=$((($RANDOM%10)+1))
 rand_val=$((($RANDOM%2)+1))
 echo $circ_num > data_files/input_vals.txt
