@@ -129,6 +129,18 @@ for i in range(num_circles):
         print("You entered an invalid radius. Aborting program.")
         sys.exit()    
 
+# Ask the user if they would like to add "dense to sparse" gradients to their data
+
+print("Would you like the data points in your circles to shift from dense to sparse (y/n)?")
+inp = raw_input()
+if inp == 'y':
+    denseToSparse = True
+elif inp == 'n':
+    denseToSparse = False
+else: 
+    print("You entered invalid input. Aborting program.")
+    sys.exit()
+
 # Generate random values for each of the circles
 
 for i in range(num_circles):
@@ -139,10 +151,26 @@ for i in range(num_circles):
 
 center = radii[0]
 
-for i in range(num_circles):
-    if i+1 > 0:
-        center += radii[i-1]+radii[i]+1
-    data_set.append([[math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]] for x in range(0, num_data_points[i]+1)])
+if(denseToSparse):
+    for i in range(num_circles):
+        temp_num_points = num_data_points[i]
+        current_data_set = []
+        if i+1 > 0:
+            center += radii[i-1]+radii[i]+1
+        while temp_num_points > 0:
+            circle_subset = []
+            for x in range(0, num_data_points[i] + 1):
+                chance = x/((num_data_points[i]+1)/2)*10 + 1
+                if np.random.uniform(0,11) < chance:
+                    circle_subset += [[math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]]]
+                    temp_num_points -= 1
+            current_data_set += circle_subset
+        data_set.append(current_data_set)        
+else:
+    for i in range(num_circles):
+        if i+1 > 0:
+            center += radii[i-1]+radii[i]+1
+        data_set.append([[math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]] for x in range(0, num_data_points[i]+1)])
 
 data = list(chain(*data_set))
 
