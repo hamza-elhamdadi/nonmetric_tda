@@ -159,7 +159,7 @@ if(denseToSparse):
             center += radii[i-1]+radii[i]+1
         while temp_num_points > 0:
             circle_subset = []
-            for x in range(0, num_data_points[i] + 1):
+            for x in range(0, temp_num_points + 1):
                 chance = x/((num_data_points[i]+1)/2)*10 + 1
                 if np.random.uniform(0,11) < chance:
                     circle_subset += [[math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]]]
