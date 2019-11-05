@@ -97,8 +97,15 @@ for data in datasets:
     dmat = dissim_matrix(data)
     new_matrices.append(dmat)
 
-for i in range(len(datasets)):
-    norm_1 = np.linalg.norm(old_matrices[i])
-    norm_2 = np.linalg.norm(new_matrices[i])
+# for i in range(len(datasets)):
+#     norm_1 = np.linalg.norm(old_matrices[i])
+#     norm_2 = np.linalg.norm(new_matrices[i])
 
-    print("k = " + str(i) + " prior to embedding: norm = " + str(norm_1) + " after embedding: norm = " + str(norm_2))
+#     print("k = " + str(i) + " prior to embedding: norm = " + str(norm_1) + " after embedding: norm = " + str(norm_2))
+
+for i in range(len(datasets)):
+    mat = np.subtract(old_matrices[i],new_matrices[i])
+
+    norm = np.linalg.norm(mat)
+
+    print("k = " + str(i) + " subtracted norm = " + str(norm))

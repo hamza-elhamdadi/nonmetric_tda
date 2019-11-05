@@ -64,6 +64,33 @@ def metric_to_nonmetric(data, mat, k):
     
     return np.asanyarray(nonmetric_dissimilarities)
 
+def dense_angle_to_sparse(angle,range_param):
+    angle = angle % 2*np.pi
+    if angle > 0:
+        angle = angle + 2*np.pi
+    
+    
+    vals = {
+        0: [0,range_param],
+        1: [range_param,2*np.pi-range_param],
+        2: [2*np.pi-range_param,2*np.pi]
+    }
+
+    if angle < np.pi/2:
+        alpha = 2*angle/np.pi
+        min = vals[0][0]
+        max = vals[0][1]
+    elif angle > np.pi/2 and angle < 3*np.pi/2:
+        alpha = (angle-(np.pi/2))/(np.pi)
+        min = vals[1][0]
+        max = vals[1][1]
+    else:
+        alpha = 2*(angle-(3*np.pi/2))/np.pi
+        min = vals[2][0]
+        max = vals[2][1]
+    
+    return min*(1-alpha) + max*alpha
+
 ###############################################################################################################################
 #                                                      Make the data                                                          #
 ###############################################################################################################################
@@ -74,7 +101,7 @@ num_data_points = []
 radii = []
 randomness_vals_x = []
 randomness_vals_y = []
-colors = ['#FF00FF','#00FFFF','#00FF00','#0000FF','#FF0000','#800000','#000075','#e6beff','#fabebe','#469990']
+colors = ['#FF00FF','#469990','#00FF00','#0000FF','#FF0000','#800000','#000075','#e6beff','#fabebe','#FF0000']
 color_sequence = []
 
 
@@ -153,22 +180,18 @@ center = radii[0]
 
 if(denseToSparse):
     for i in range(num_circles):
-        temp_num_points = num_data_points[i]
-        current_data_set = []
+        next_set = []
         if i+1 > 0:
-            center += radii[i-1]+radii[i]+3
-        while temp_num_points > 0:
-            circle_subset = []
-            flag = 0
-            for x in range(0, temp_num_points):
-                chance = x/((num_data_points[i]+1)/2)*10 + 1
-                if np.random.uniform(0,11) < chance:
-                    new_elem = [math.cos(2*np.pi/temp_num_points*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/temp_num_points*x)*radii[i]+randomness_vals_y[i][x]]
-                    if not new_elem in current_data_set:
-                        circle_subset += [new_elem]
-                        temp_num_points -= 1
-            current_data_set += circle_subset
-        data_set.append(current_data_set)        
+            center += radii[i-1]+radii[i]+1
+        for j in range(int(math.floor(num_data_points[i]))):
+            for x in range(0, int(math.floor(num_data_points[i]/4))):
+                angle = 2*np.pi/num_data_points[i]*x
+                angle = dense_angle_to_sparse(angle, np.pi/4)
+                x_val = math.cos(angle)*radii[i]+center+randomness_vals_x[i][x]
+                y_val = math.sin(angle)*radii[i]+randomness_vals_y[i][x]
+                point = [x_val, y_val]
+                next_set.append(point)
+        data_set.append(next_set)
 else:
     for i in range(num_circles):
         if i+1 > 0:
