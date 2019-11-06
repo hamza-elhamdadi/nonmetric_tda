@@ -10,86 +10,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from itertools import chain
 import sys
-
-###############################################################################################################################
-#                                                   Useful Functions                                                          #
-###############################################################################################################################
-
-# Euclidean distance between two points
-
-def distance(p0, p1):
-    temp_1 = p1[0]-p0[0]
-    temp_2 = p1[1]-p0[1]
-    temp_1 = temp_1*temp_1
-    temp_2 = temp_2*temp_2
-    return math.sqrt(temp_1 + temp_2)
-
-# Convert Euclidean to non-metric distance given a certain k
-
-def non_met_distance(x, y, x_k, y_k):
-    numer = distance(x,y)
-    denom = max([x_k,y_k])
-    return numer/denom
-
-# create the metric dissimilarity matrix
-
-def dissim_matrix(data):
-    dissimilarities = []
-
-    for i in range(0,len(data)):
-        current_line = []
-
-        for j in range(0,len(data)):
-            current_line.append(distance(data[i],data[j]))
-        
-        dissimilarities.append(current_line)
-
-    return np.asanyarray(dissimilarities)
-
-# map the metric dissimilarity matrix to a non-metric space
-
-def metric_to_nonmetric(data, mat, k):
-    nonmetric_dissimilarities = []
-    
-    for i in range(0, len(mat[0])):
-        current_line = []
-        sorted_row = np.sort(mat[i])
-
-        for j in range(0, len(mat[0])):
-            sorted_col = np.sort(mat[j])
-
-            current_line.append(non_met_distance(data[i], data[j], sorted_row[k+1], sorted_col[k+1]))
-        
-        nonmetric_dissimilarities.append(current_line)
-    
-    return np.asanyarray(nonmetric_dissimilarities)
-
-def dense_angle_to_sparse(angle,range_param):
-    angle = angle % 2*np.pi
-    if angle > 0:
-        angle = angle + 2*np.pi
-    
-    
-    vals = {
-        0: [0,range_param],
-        1: [range_param,2*np.pi-range_param],
-        2: [2*np.pi-range_param,2*np.pi]
-    }
-
-    if angle < np.pi/2:
-        alpha = 2*angle/np.pi
-        min = vals[0][0]
-        max = vals[0][1]
-    elif angle > np.pi/2 and angle < 3*np.pi/2:
-        alpha = (angle-(np.pi/2))/(np.pi)
-        min = vals[1][0]
-        max = vals[1][1]
-    else:
-        alpha = 2*(angle-(3*np.pi/2))/np.pi
-        min = vals[2][0]
-        max = vals[2][1]
-    
-    return min*(1-alpha) + max*alpha
+import nmf
 
 ###############################################################################################################################
 #                                                      Make the data                                                          #
@@ -99,11 +20,10 @@ data = []
 data_set = []
 num_data_points = []
 radii = []
-randomness_vals_x = []
-randomness_vals_y = []
+pi = np.pi
+
 colors = ['#FF00FF','#469990','#00FF00','#0000FF','#FF0000','#800000','#000075','#e6beff','#fabebe','#FF0000']
 color_sequence = []
-
 
 # Request user input for the number of circles
 
@@ -168,11 +88,13 @@ else:
     print("You entered invalid input. Aborting program.")
     sys.exit()
 
-# Generate random values for each of the circles
+randomness_vals_x = []
+randomness_vals_y = []
 
+# Generate random values for each of the circles
 for i in range(num_circles):
-    randomness_vals_x.append([np.random.uniform(rand_range_start, rand_range_end) for x in range(0,num_data_points[i]+1)])
-    randomness_vals_y.append([np.random.uniform(rand_range_start, rand_range_end) for y in range(0,num_data_points[i]+1)])
+    randomness_vals_x.append(nmf.rand_vals(rand_range_start, rand_range_end, num_data_points[i]))
+    randomness_vals_y.append(nmf.rand_vals(rand_range_start, rand_range_end, num_data_points[i]))
 
 # Generate the data set
 
@@ -183,20 +105,19 @@ if(denseToSparse):
         next_set = []
         if i+1 > 0:
             center += radii[i-1]+radii[i]+1
-        for j in range(int(math.floor(num_data_points[i]))):
-            for x in range(0, int(math.floor(num_data_points[i]/4))):
-                angle = 2*np.pi/num_data_points[i]*x
-                angle = dense_angle_to_sparse(angle, np.pi/4)
-                x_val = math.cos(angle)*radii[i]+center+randomness_vals_x[i][x]
-                y_val = math.sin(angle)*radii[i]+randomness_vals_y[i][x]
-                point = [x_val, y_val]
-                next_set.append(point)
+        for x in range(0, num_data_points[i] + 1):
+            angle = 2*pi/num_data_points[i]*x
+            angle = nmf.dense_angle_to_sparse(angle, pi/4)
+            x_val = math.cos(angle)*radii[i]+center+randomness_vals_x[i][x]
+            y_val = math.sin(angle)*radii[i]+randomness_vals_y[i][x]
+            point = [x_val, y_val]
+            next_set.append(point)
         data_set.append(next_set)
 else:
     for i in range(num_circles):
         if i+1 > 0:
             center += radii[i-1]+radii[i]+1
-        data_set.append([[math.cos(2*np.pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*np.pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]] for x in range(0, num_data_points[i]+1)])
+        data_set.append([[math.cos(2*pi/num_data_points[i]*x)*radii[i]+center+randomness_vals_x[i][x],math.sin(2*pi/num_data_points[i]*x)*radii[i]+randomness_vals_y[i][x]] for x in range(0, num_data_points[i]+1)])
 
 data = list(chain(*data_set))
 
@@ -212,6 +133,6 @@ for i in data:
 data_x = map(op.itemgetter(0), data)
 data_y = map(op.itemgetter(1), data)
 
-plt.scatter(data_x,data_y,np.pi*3, c = color_sequence, edgecolors = color_sequence)
+plt.scatter(data_x,data_y,pi*3, c = color_sequence, edgecolors = color_sequence)
 plt.savefig("pictures/og_dataset.png")
 plt.show()

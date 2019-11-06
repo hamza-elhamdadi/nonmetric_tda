@@ -111,10 +111,10 @@ for curr_file in files:
                 string += str(i) + ' '
             curr_file.write(string)
             curr_file.write('\n')
-        k += 1
+        k += 10
     else:
         non_met_mat = metric_to_nonmetric(data, mat, sorted_matrix, k)
-        k += 1
+        k += 10
 
         for line in non_met_mat:
             string = ""

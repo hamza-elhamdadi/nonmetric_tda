@@ -45,6 +45,7 @@ for file in files:
     content = file.readlines()
 
     mat = []
+    plt.clf()
 
     for line in content:
         row = []

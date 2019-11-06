@@ -108,4 +108,4 @@ for i in range(len(datasets)):
 
     norm = np.linalg.norm(mat)
 
-    print("k = " + str(i) + " subtracted norm = " + str(norm))
+    print("k = " + str(i*10) + " subtracted norm = " + str(norm))
