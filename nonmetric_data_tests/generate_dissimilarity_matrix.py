@@ -5,6 +5,9 @@
 import math
 import numpy as np
 import sys
+import nmf
+from ripser import ripser
+from persim import plot_diagrams
 
 # Read in data
 
@@ -28,83 +31,25 @@ for line in content:
     data.append([float(words[0]), float(words[1])])
 
 ###############################################################################################################################
-#                                                        Functions                                                            #
-###############################################################################################################################
-
-# calculate the distance between two points
-
-def distance(p0, p1):
-    temp_1 = p1[0]-p0[0]
-    temp_2 = p1[1]-p0[1]
-    temp_1 = temp_1*temp_1
-    temp_2 = temp_2*temp_2
-    return math.sqrt(temp_1 + temp_2)
-
-# calculate the nonmetric distance for a given ij element of the dissimilarity matrix
-
-def non_met_distance(x, y, x_k, y_k):
-    numer = distance(x,y)
-    denom = max([x_k,y_k])
-#    if denom == 0:
-#        print("numerator: " + str(numer) + " denominator:" + str(denom))
-    return numer/denom
-
-# create the dissimilarity matrix
-
-def dissim_matrix(data):
-    dissimilarities = []
-
-    for i in range(0,len(data)):
-        current_line = []
-
-        for j in range(0,len(data)):
-            current_line.append(distance(data[i],data[j]))
-        
-        dissimilarities.append(current_line)
-
-    return np.asanyarray(dissimilarities)
-
-# sort the rows metric dissimilarity matrix by row
-
-def sort_metric(mat, sorted_matrix):
-
-    for i in range(0, len(mat[0])):
-        sorted_row = np.sort(mat[i])
-        print sorted_row
-        sorted_matrix.append(sorted_row)
-
-# map the metric dissimilarity matrix to a non-metric space
-
-def metric_to_nonmetric(data, mat, sorted_matrix, k):
-    nonmetric_dissimilarities = []
-    
-    for i in range(0, len(mat[0])):
-        current_line = []
-
-        for j in range(0, len(mat[0])):
-            current_line.append(non_met_distance(data[i], data[j], sorted_matrix[i][k], sorted_matrix[j][k]))
-        
-        nonmetric_dissimilarities.append(current_line)
-    
-    return np.asanyarray(nonmetric_dissimilarities)
-
-###############################################################################################################################
 #                                                     Data Manipulation                                                       #
 ###############################################################################################################################
 
 # create the dissimilarity matrix for data
 
-mat = dissim_matrix(data)
+mat = nmf.dissim_matrix(data)
 
 # fill out the metric data file
 
 k = 0
 
 sorted_matrix = []
-sort_metric(mat, sorted_matrix)
+nmf.sort_metric(mat, sorted_matrix)
 
 for curr_file in files:
     if k == 0:
+        diagrams = ripser(mat, distance_matrix = True)['dgms']
+        plot_diagrams(diagrams, show = True)
+
         for line in mat:
             string = ""
             for i in line:
@@ -113,7 +58,10 @@ for curr_file in files:
             curr_file.write('\n')
         k += 10
     else:
-        non_met_mat = metric_to_nonmetric(data, mat, sorted_matrix, k)
+        non_met_mat = nmf.metric_to_nonmetric(data, mat, sorted_matrix, k)
+        diagrams = ripser(non_met_mat, distance_matrix = True)['dgms']
+        plot_diagrams(diagrams, show = True)
+
         k += 10
 
         for line in non_met_mat:

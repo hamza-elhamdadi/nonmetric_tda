@@ -36,19 +36,24 @@ def dissim_matrix(data):
 
     return np.asanyarray(dissimilarities)
 
+# sort the rows metric dissimilarity matrix by row
+
+def sort_metric(mat, sorted_matrix):
+
+    for i in range(0, len(mat[0])):
+        sorted_row = np.sort(mat[i])
+        sorted_matrix.append(sorted_row)
+
 # map the metric dissimilarity matrix to a non-metric space
 
-def metric_to_nonmetric(data, mat, k):
+def metric_to_nonmetric(data, mat, sorted_matrix, k):
     nonmetric_dissimilarities = []
     
     for i in range(0, len(mat[0])):
         current_line = []
-        sorted_row = np.sort(mat[i])
 
         for j in range(0, len(mat[0])):
-            sorted_col = np.sort(mat[j])
-
-            current_line.append(non_met_distance(data[i], data[j], sorted_row[k+1], sorted_col[k+1]))
+            current_line.append(non_met_distance(data[i], data[j], sorted_matrix[i][k+1], sorted_matrix[j][k+1]))
         
         nonmetric_dissimilarities.append(current_line)
     
